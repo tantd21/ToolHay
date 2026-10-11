@@ -1,0 +1,23 @@
+{
+  "name": "toolhay2",
+  "version": "1.0.0",
+  "description": "2D Derpy Animation Video Generator Tool",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "2d-animation",
+    "gemini",
+    "tts",
+    "video-generator"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@resvg/resvg-js": "^2.6.2",
+    "express": "^4.19.2",
+    "ws": "^8.17.0"
+  }
+}

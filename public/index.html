@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toolhay2 - 2D Educational & History Meme Animation Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <header class="app-header">
+            <div class="logo-area">
+                <div class="logo-icon">📜</div>
+                <div class="logo-text">
+                    <h1>Toolhay2 <span>Edu-2D Studio</span></h1>
+                    <p class="tagline">Tạo Video Hoạt Hình Dạy Kiến Thức Lịch Sử & Khoa Học 2D Meme Tự Động</p>
+                </div>
+            </div>
+            <div class="status-badge">
+                <span class="pulse-dot"></span> Edu-AI Active (Gemini & Edge TTS)
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Script Input Section -->
+            <section class="card script-section">
+                <div class="card-header">
+                    <h2>📚 1. Kịch Bản Hoặc Chủ Đề Kiến Thức (Lịch Sử / Khoa Học)</h2>
+                    <div class="header-actions">
+                        <!-- Import File Script Button -->
+                        <label for="fileInput" class="btn btn-secondary">
+                            <span>📁 Import File Kịch Bản (.txt, .json)</span>
+                        </label>
+                        <input type="file" id="fileInput" accept=".txt,.json,.md,.doc" class="hidden-file-input" />
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- Quick Sample Topics -->
+                    <div class="sample-topics">
+                        <span class="sample-title">💡 Mẫu chủ đề hay:</span>
+                        <button type="button" class="btn-sample" data-topic="Lịch sử Trận Ngô Quyền đánh tan quân Nam Hán trên sông Bạch Đằng năm 938 bằng cọc gỗ bọc sắt bựa hài hước">📜 Trận Bạch Đằng 938</button>
+                        <button type="button" class="btn-sample" data-topic="Tại sao nước biển lại mặn và muối đến từ đâu giải thích khoa học dễ hiểu hài hước">🌊 Tại sao nước biển mặn?</button>
+                        <button type="button" class="btn-sample" data-topic="Thomas Edison phát minh ra bóng đèn điện như thế nào sau hàng ngàn lần thất bại">💡 Edison & Bóng Đèn</button>
+                        <button type="button" class="btn-sample" data-topic="Tại sao khủng long lại bị tuyệt chủng cách đây 66 triệu năm trước">🦕 Khủng Long Tuyệt Chủng</button>
+                    </div>
+
+                    <!-- Script Input Box with Drag and Drop Support -->
+                    <div class="textarea-wrapper" id="dropZone">
+                        <textarea id="scriptInput" rows="5" placeholder="Dán kịch bản, gõ chủ đề HOẶC KÉO THẢ FILE (.txt, .json) VÀO ĐÂY...
+Ví dụ: Trận Bạch Đằng năm 938: Ngô Quyền đã cho cắm cọc nhọn bọc sắt xuống lòng sông Bạch Đằng..."></textarea>
+                        <div class="drop-hint hidden" id="dropHint">📥 Thả file kịch bản vào đây để Import</div>
+                    </div>
+                    
+                    <div class="controls-row">
+                        <div class="control-group">
+                            <label for="voiceSelect">🎙️ Giọng Thuyết Minh (TTS):</label>
+                            <select id="voiceSelect">
+                                <optgroup label="⚡ Edge TTS (Miễn phí 100% - Không giới hạn ký tự / Không bao giờ hết lượt)">
+                                    <option value="hoaimy" selected>🟢 Edge TTS Nữ - Hoài Mỹ (Đọc truyền cảm & mượt)</option>
+                                    <option value="namminh">🟢 Edge TTS Nam - Nam Minh (Kể chuyện hài hước, cuốn hút)</option>
+                                </optgroup>
+                                <optgroup label="💎 ElevenLabs API (Dùng Key của bạn - Bản Free có giới hạn)">
+                                    <option value="eleven_jessica">💎 ElevenLabs Nữ - Jessica</option>
+                                    <option value="eleven_liam">💎 ElevenLabs Nam - Liam</option>
+                                    <option value="eleven_brian">💎 ElevenLabs Nam - Brian</option>
+                                </optgroup>
+                            </select>
+                        </div>
+
+                        <div class="control-group">
+                            <label for="aspectRatioSelect">📐 Tỉ Lệ Video:</label>
+                            <select id="aspectRatioSelect">
+                                <option value="16:9" selected>16:9 (YouTube Standard / Bài giảng)</option>
+                                <option value="9:16">9:16 (TikTok / YouTube Shorts Kiến Thức)</option>
+                            </select>
+                        </div>
+
+                        <button id="btnProcessScript" class="btn btn-primary">
+                            <span>✨ 2. Phân Cảnh & Sinh Ảnh 2D Kiến Thức</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Loading Indicator & Cancel Action Button -->
+            <div id="loadingOverlay" class="loading-overlay hidden">
+                <div class="spinner"></div>
+                <p id="loadingStatusText">Gemini AI đang tự biên kịch bài giảng Lịch sử/Khoa học và sinh ảnh 2D...</p>
+                <button id="btnCancelTask" class="btn btn-danger">
+                    <span>⏹️ Dừng Tác Vụ (Hủy Tiến Trình)</span>
+                </button>
+            </div>
+
+            <!-- Scene Timeline Editor Section -->
+            <section id="scenesSection" class="card scenes-section hidden">
+                <div class="card-header">
+                    <h2>🎬 2. Phân Cảnh Bài Giảng & Minh Họa 2D (Scene Editor)</h2>
+                    <button id="btnRenderVideo" class="btn btn-success">
+                        <span>🚀 3. Xuất Video MP4 Hoàn Chỉnh</span>
+                    </button>
+                </div>
+                <div id="scenesContainer" class="scenes-grid">
+                    <!-- Scenes populated dynamically via JavaScript -->
+                </div>
+            </section>
+
+            <!-- Final Render Result Section -->
+            <section id="resultSection" class="card result-section hidden">
+                <div class="card-header">
+                    <h2>🎉 3. Video Hoạt Hình 2D Thành Phẩm</h2>
+                </div>
+                <div class="card-body video-result-body">
+                    <div class="video-preview-wrapper">
+                        <video id="finalVideoPlayer" controls autoplay></video>
+                    </div>
+                    <div class="download-actions">
+                        <a id="downloadVideoBtn" href="#" download class="btn btn-accent">
+                            <span>📥 Tải Video Bài Giảng MP4 Về Máy</span>
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>Toolhay2 Edu Studio &bull; Phong cách Hoạt hình 2D Dạy Kiến Thức Lịch Sử & Khoa Học Meme</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
